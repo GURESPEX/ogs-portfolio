@@ -9,11 +9,11 @@ import { contacts, skills } from "@/lib/data";
 import Lenis from "lenis";
 
 const SideBar: FC = () => {
-  const skillsListRef = useRef<HTMLDivElement>(null);
+  const sideBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const lenis = new Lenis({
-      wrapper: skillsListRef.current || window,
+      wrapper: sideBarRef.current || window,
     });
 
     function raf(time: DOMHighResTimeStamp) {
@@ -54,62 +54,61 @@ const SideBar: FC = () => {
       >
         <Column className="w-full h-full gap-2 p-2 bg-slate-900 border border-slate-800 rounded-xl">
           <Row className="flex xl:hidden h-6 gap-2 justify-end" />
-          <Column className="flex-1 gap-2 overflow-hidden">
-            <Row className="relative w-full h-96 justify-center items-center bg-slate-900 border border-slate-800 rounded-sm overflow-hidden">
-              <Absolute
-                className="z-10 opacity-100 hover:opacity-0 bg-slate-950 mix-blend-color"
-                full
-              />
-              <Absolute className="z-10" full>
-                <Column className="w-full h-full justify-end">
-                  <Column className="p-4 bg-gradient-to-r from-slate-800 to-transparent">
-                    <div className="text-md text-white font-light uppercase">
-                      Hi there! my name is
-                    </div>
-                    <div className="text-3xl text-yellow-500 uppercase">
-                      Natthanan Thongchomphu
-                    </div>
+          <div
+            ref={sideBarRef}
+            className="overflow-auto scrollbar-styled rounded-sm flex-1"
+          >
+            <Column className="flex-1 gap-2 pr-2">
+              <Row className="relative w-full h-96 justify-center items-center bg-slate-900 border border-slate-800 rounded-sm overflow-hidden">
+                <Absolute
+                  className="z-10 opacity-100 hover:opacity-0 bg-slate-950 mix-blend-color"
+                  full
+                />
+                <Absolute className="z-10" full>
+                  <Column className="w-full h-full justify-end">
+                    <Column className="p-4 bg-gradient-to-r from-slate-800 to-transparent">
+                      <div className="text-md text-white font-light uppercase">
+                        Hi there! my name is
+                      </div>
+                      <div className="text-3xl text-yellow-500 uppercase">
+                        Natthanan Thongchomphu
+                      </div>
+                    </Column>
                   </Column>
+                </Absolute>
+                <img
+                  className="absolute top-0 left-0 w-full h-full object-cover grayscale"
+                  src={profile}
+                  alt="Profile Image"
+                />
+              </Row>
+              <Row className="w-full rounded-sm">
+                <Column className="p-4 text-white text-md font-light uppercase">
+                  <div className="pl-4 border-l-2 border-yellow-500">
+                    I'm a student of College of Computing Khon Kaen University
+                    who is interested in Front-End development.
+                  </div>
                 </Column>
-              </Absolute>
-              <img
-                className="absolute top-0 left-0 w-full h-full object-cover grayscale"
-                src={profile}
-                alt="Profile Image"
-              />
-            </Row>
-            <Row className="w-full rounded-sm">
-              <Column className="p-4 text-white text-md font-light uppercase">
-                <div className="pl-4 border-l-2 border-yellow-500">
-                  I'm a student of College of Computing Khon Kaen University who
-                  is interested in Front-End development.
+              </Row>
+              <Column className="flex-1 w-full gap-4 p-2 text-white">
+                <div className="text-3xl uppercase text-yellow-500">Skills</div>
+                <div className="flex-1 grid grid-cols-1 gap-2">
+                  {skills.map(({ name, icon }, index) => (
+                    <Row
+                      key={index}
+                      className="h-12 gap-2 p-2 items-center rounded-sm border border-slate-800"
+                    >
+                      <Row className="h-full aspect-square justify-center items-center text-2xl">
+                        {icon}
+                      </Row>
+                      <div>{name}</div>
+                    </Row>
+                  ))}
                 </div>
               </Column>
-            </Row>
-            <Column className="flex-1 w-full gap-4 p-2 text-white overflow-hidden">
-              <div className="text-3xl uppercase text-yellow-500">Skills</div>
-              <div className="flex-1 overflow-hidden">
-                <div
-                  ref={skillsListRef}
-                  className="w-full h-full overflow-auto rounded-sm pr-4 sm:pr-0 scrollbar-styled"
-                >
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {skills.map(({ name, icon }, index) => (
-                      <Row
-                        key={index}
-                        className="h-12 gap-2 p-2 items-center rounded-sm border border-slate-800"
-                      >
-                        <Row className="h-full aspect-square justify-center items-center text-2xl">
-                          {icon}
-                        </Row>
-                        <div>{name}</div>
-                      </Row>
-                    ))}
-                  </div>
-                </div>
-              </div>
             </Column>
-          </Column>
+          </div>
+
           <Column className="gap-2">
             <Row className="w-full justify-center items-center gap-4">
               {contacts.map(({ icon, link }, index) => (
